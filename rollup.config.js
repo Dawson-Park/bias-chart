@@ -11,12 +11,12 @@ export default {
 			name: "@acryl/bias-chart",
 			sourcemap: true,
 		},
-		{
-			file: "./dist/common.js",
-			format: "cjs",
-			name: "@acryl/bias-chart",
-			sourcemap: true,
-		}
+		// {
+		// 	file: "./dist/common.js",
+		// 	format: "cjs",
+		// 	name: "@acryl/bias-chart",
+		// 	sourcemap: true,
+		// }
 	],
 	plugins: [
 		babel({
@@ -34,4 +34,5 @@ export default {
 		}),
 		typescript()
 	],
+	external: ['styled-components']
 }
