@@ -23,6 +23,22 @@ const Group = styled("div")<{ width:string, height:string }>`
 
   svg {
     box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  g.tick text {
+    font-size: 12px;
+  }
+  
+  rect {
+    transition: opacity ease .3s;
+  }
+  
+  .tooltip {
+    transition: all ease .2s;
   }
 `;
 
@@ -45,8 +61,17 @@ export default function Bar({
 	const config = React.useMemo(() => {
 		if(!seed || !tId) return null;
 
-		const _xAxis = (!Util.isEmpty(xAxis) && xAxis?.length === series.length)
-						? xAxis : series.map((d:any, i:any) => i);
+		// xAxis가 요소의 수와 같지 않다면
+		const _xAxis = (() => {
+			if(Array.isArray(series[0])) {
+				return (/*xAxis?.length > 0 && */xAxis?.length === series[0].length)
+					? xAxis : series[0].map((d, i) => i.toString());
+			}
+			else {
+				return (/*xAxis?.length > 0 && */xAxis?.length === series.length)
+					? xAxis : series.map((d, i) => i.toString());
+			}
+		})()
 
 		return {
 			id: "#"+tId,
@@ -62,9 +87,9 @@ export default function Bar({
 	 * config가 확정되면 차트를 생성하는 side-effect
 	 */
 	React.useEffect(() => {
-		// console.log(config)
 		if(Util.isEmpty(config)) return;
-		// console.log("Initializing Graph")
+
+		// console.log("Init")
 		make(config!); // 화면이 변하지 않는 이상 무조건 1번만 실행되야함
 	}, [config])
 
