@@ -1,6 +1,9 @@
 import React from "react";
 import Random from "../lib/Random";
 
+/**
+ * div의 Reference를 전달받아 div의 높이와 너비, 랜덤ID의 시드값을 반환하는 hooks
+ */
 export default function useInit(group: React.RefObject<HTMLDivElement>) {
 	const [divWidth, setDivWidth] = React.useState(0);
 	const [divHeight, setDivHeight] = React.useState(0);

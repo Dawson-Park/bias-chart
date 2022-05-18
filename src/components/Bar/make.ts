@@ -10,10 +10,6 @@ interface Config {
 	label: string;
 }
 
-interface Single extends Config {
-	series: number[];
-}
-
 // const COLOR = [
 // 	"#d53e4f", "#f46d43", "#fdae61",
 // 	"#fee08b", "#ffffbf", "#e6f598",
