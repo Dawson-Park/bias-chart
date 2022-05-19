@@ -2,10 +2,10 @@ import React from "react";
 import Util from "lib/Util";
 import useInit from "hooks/useInit";
 import useConfig from "hooks/useConfig";
-import Container from "./Container";
+import Container from "components/common/Container";
 import make from "./make";
 
-export interface Props {
+export interface BarProps {
 	id: string;
 	series: number[]|number[][];
 	xAxis?: string[];
@@ -16,7 +16,7 @@ export interface Props {
 
 export default function Bar({
 	id, series, xAxis=[], width="100%", height="100%", label="null"
-}:Props) {
+}:BarProps) {
 	const group = React.useRef<HTMLDivElement>(null);
 	const { divWidth, divHeight, seed } = useInit(group);
 	const { tId, config } = useConfig({ id, seed, divWidth, divHeight, series, xAxis, label });

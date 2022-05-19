@@ -3,8 +3,8 @@ import styled from "styled-components";
 const Container = styled("div")<{ width:string, height:string }>`
   width: ${props => props.width};
   height: ${props => props.height};
-  min-width: 300px;
-  min-height: 300px;
+  min-width: 240px;
+  min-height: 240px;
   max-height: 750px;
 
   svg {
