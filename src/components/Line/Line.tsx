@@ -1,40 +1,67 @@
 import React from "react";
-import Util from "lib/Util";
-import useInit from "hooks/useInit";
 import useConfig from "hooks/useConfig";
-import Container from "components/common/Container";
 import make from "./make";
+import styled from "styled-components";
+// import Container from "../common/Container";
+
+const Container = styled("div")<{ width:string, height:string }>`
+  width: ${props => props.width};
+  height: ${props => props.height};
+  min-width: 240px;
+  min-height: 240px;
+  max-height: 750px;
+
+  svg {
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+  g.tick text {
+    font-size: 12px;
+  }
+  
+  rect {
+    transition: opacity ease .3s;
+  }
+  
+  .tooltip {
+    transition: all ease .2s;
+  }
+`;
 
 export interface LineProps {
-	id: string;
-	series: number[]|number[][];
-	xAxis?: string[];
+	data: number[][];
+	id?: string;
+	xDomain?: string[];
+	zDomain?: string[];
 	width?: string;
 	height?: string;
 	label?: string;
 }
 
 export default function Line({
-	id, series, xAxis=[], width="100%", height="100%", label="null"
+	id, data, xDomain, zDomain, width="100%", height="100%", label=undefined
 }:LineProps) {
 	const group = React.useRef<HTMLDivElement>(null);
-	const { divWidth, divHeight, seed } = useInit(group);
-	const { tId, config } = useConfig({ id, seed, divWidth, divHeight, series, xAxis, label });
+	const config = useConfig(data, group, "Line", id, label, xDomain, zDomain); // 차트에서 사용할 설정값
 
 	/**
 	 * config가 확정되면 차트를 생성하는 side-effect
 	 */
 	React.useEffect(() => {
-		if(Util.isEmpty(config)) return;
+		if(config === null) return;
 
-		console.log("Init")
-		make(config!); // 화면이 변하지 않는 이상 무조건 1번만 실행되야함
+		// console.log("Line Init")
+		make(config); // 화면이 변하지 않는 이상 무조건 1번만 실행되야함
 	}, [config])
 
 	/* Render Area */
 	return (
 		<Container ref={group} width={width} height={height}>
-			<svg id={tId} />
+			<svg id={config?.id||"line"} />
 		</Container>
 	)
 }

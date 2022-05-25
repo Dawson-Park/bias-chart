@@ -1,4 +1,59 @@
 export default class Util {
+	/**
+	 * 도메인을 extract된 배열에 대응되도록 변경
+	 */
+	public static plait(domain:string[]|undefined, extracted:{x:number, y:number, z:number}[], flag:"x"|"z") {
+		if(!domain) return undefined;
+
+		const output = [];
+
+		if(flag === "x") {
+			const x = Array.from(new Set(extracted.map(e => e.x)));
+			const length = extracted.length/x.length;
+
+			if(x.length === domain.length) {
+				for (let i = 0; i <length; i++) {
+					for (const el of x) {
+						output.push(domain[el])
+					}
+				}
+				return output;
+			}
+			else return undefined;
+		}
+		else {
+			const z = Array.from(new Set(extracted.map(e => e.z)));
+			const length = extracted.length/z.length;
+
+			if(z.length === domain.length) {
+				for (const el of z) {
+					for (let i = 0; i <length; i++) {
+						output.push(domain[el])
+					}
+				}
+				return output;
+			}
+			else return undefined;
+		}
+	}
+
+	/**
+	 * 입력받은 series를 1차원 배열로 재배열하는 메소드
+	 */
+	public static extract(Y:number[][]) {
+		const output = [];
+		for (const K in Y) {
+			for (const k in Y[K]) {
+				output.push({ y:Y[K][k], x:Number(k), z:Number(K) });
+			}
+		}
+
+		return output;
+	}
+
+	/**
+	 * 입력받은 숫자가 1000을 넘으면 k로 표시하는 메소드
+	 */
 	public static k(n:number):string {
 		return Intl.NumberFormat('en', {notation:'compact'}).format(n)
 	}
@@ -98,5 +153,11 @@ export default class Util {
 			if(!el) return false;
 		}
 		return true;
+	}
+
+	public static bandage(v:number, min:number, max:number) {
+		if(v > max) return max;
+		if(v < min) return min;
+		return v;
 	}
 }
