@@ -1,34 +1,13 @@
 import * as d3 from "d3";
 import Util from "lib/Util";
-import Constitute from "lib/Constitute";
-
-interface Series {
-	x: number;
-	y: number;
-	z: number;
-}
-interface Config {
-	id: string;
-	width: number;
-	height: number;
-	series: Series[];
-	label?: string;
-	xDomain?: string[];
-	zDomain?: string[];
-}
+import Constitute, { Series, Config } from "lib/Constitute";
 
 export default function make(config:Config) {
-	const id = "#"+config.id;
-	const width = config.width;
-	const height = config.height;
-	const label = config.label;
-	const xList = config.xDomain;
-	const zList = config.zDomain;
+	// config 값 풀기
+	const { id, width, height, label, xList, zList } = Constitute.Untie(config);
 
 	// 리랜더링 시 svg 클리어
-	(function clear() {
-		d3.selectAll(`${id} *`).remove();
-	})();
+	Constitute.Clear(id)
 
 	generate(config.series, id, width, height, label, xList, zList);
 }
@@ -62,47 +41,22 @@ function generate(
 	const xPadding = 0.2;
 	const zPadding = 0.1;
 
+	// Series의 인덱스 정의
 	const I = d3.range(X.length).filter(i => xDomain.has(X[i]) && zDomain.has(Z[i]));
 
-	// 차트를 그릴때 사용할 실질적인 좌표값 함수를 정의
+	// 차트를 그릴때 사용할 좌표값 함수를 정의
 	const xScale = d3.scaleBand(xDomain, xRange).paddingInner(xPadding);
 	const xzScale = d3.scaleBand(zDomain, [0, xScale.bandwidth()]).padding(zPadding);
 	const yScale = d3.scaleLinear(yDomain, yRange);
 	const zScale = d3.schemeSpectral[Util.bandage(zDomain.size, 3, 11)];
-	const xAxis = (() => {
-		if(!xList) return d3.axisBottom(xScale).tickSizeOuter(0).tickFormat(null);
-		else return d3.axisBottom(xScale).tickSizeOuter(0).tickFormat((_, i) => xList[i])
-	})()
+	const xAxis = Constitute.xAxisFactor(xList, xScale);
 	const yAxis = d3.axisLeft(yScale).ticks(height/60).tickFormat((v) => Util.k(v as number))
 
-	if(!!title) { // title이 있으면 title 추가
-		svg.append("g")
-		   .attr("transform", `translate(${padding+5}, 0)`)
-		   .call(yAxis)
-		   .call(g => g.select(".domain").remove())
-		   .call(g => g.selectAll(".tick line").clone()
-		               .attr("x2", width - padding - padding)
-		               .attr("stroke-opacity", (d, i) => i===0 ? 1:0.1))
-		   .call(g => g.append("text")
-		               .attr("x", -padding)
-		               .attr("y", padding)
-		               .attr("fill", "currentColor")
-		               .attr("class", "ylabel")
-		               .text(title));
+	// y축 생성
+	Constitute.YAxis(svg, width, padding, yAxis, (_:any, i:number) => i===0 ? 1:0.1)
 
-		const textWidth = (svg.select("text.ylabel").node() as SVGAElement).getBBox().width;
-		const textHeight = (svg.select("text.ylabel").node() as SVGAElement).getBBox().height;
-		svg.select("text.ylabel").attr("transform", `translate(${textWidth}, ${-textHeight})`);
-	}
-	else { // title이 없으면 y축만 생성
-		svg.append("g")
-		   .attr("transform", `translate(${padding+5}, 0)`)
-		   .call(yAxis)
-		   .call(g => g.select(".domain").remove())
-		   .call(g => g.selectAll(".tick line").clone()
-		               .attr("x2", width - padding - padding)
-		               .attr("stroke-opacity", (d, i) => i===0 ? 1:0.1))
-	}
+	// title이 있으면 title 추가
+	if(!!title) Constitute.Title(svg, padding, title);
 
 	// Bar 차트 생성
 	const bar = svg.append("g")
@@ -118,6 +72,9 @@ function generate(
 	               .on("mouseover", (_, i) => pointerMoved(i))
 	               .on("mouseleave", pointerLeave)
 
+	// x축 생성
+	Constitute.XAxis(svg, height, padding, xAxis);
+
 	// Bar 차트에 애니메이션 추가
 	for (let i = 0; i < I.length; i++) {
 		const b = svg.select(`.bar:nth-of-type(${i+1})`);
@@ -129,12 +86,6 @@ function generate(
 		   .attr("y", yScale(Y[i]))
 		   .attr("height", yScale(0) - yScale(Y[i]))
 	}
-
-
-	// x축 생성
-	svg.append("g")
-	   .attr("transform", `translate(0, ${height - padding})`)
-	   .call(xAxis);
 
 	const tooltip = svg.append("g")
 	                   .style("pointer-events", "none")

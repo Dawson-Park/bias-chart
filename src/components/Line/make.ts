@@ -1,47 +1,20 @@
 import * as d3 from "d3";
 import Util from "lib/Util";
-import Constitute from "lib/Constitute";
-
-// const COLOR = [
-// 	"#d53e4f", "#f46d43", "#fdae61",
-// 	"#fee08b", "#ffffbf", "#e6f598",
-// 	"#abdda4", "#66c2a5", "#3288bd",
-// 	"#95B5FF",
-// ]
-interface Series {
-	x: number;
-	y: number;
-	z: number;
-}
-
-interface Config {
-	id: string;
-	width: number;
-	height: number;
-	series: Series[];
-	label?: string;
-	xDomain?: string[];
-	zDomain?: string[];
-}
+import Constitute, { Series, Config } from "lib/Constitute";
 
 export default function make(config:Config) {
 	// config 값 풀기
-	const id = "#"+config.id;
-	const width = config.width;
-	const height = config.height;
-	const label = config.label;
-	const xList = config.xDomain;
-	const zList = config.zDomain;
+	const { id, width, height, label, xList, zList } = Constitute.Untie(config);
 
 	// 리랜더링 시 svg 클리어
-	(function clear() {
-		d3.selectAll(`${id} *`).remove();
-	})();
+	Constitute.Clear(id)
 
 	generate(config.series, id, width, height, label, xList, zList);
 }
 
-function generate(data:Series[], id:string, width:number, height:number, title?:string, xList?:string[], zList?:string[]) {
+function generate(
+	data:Series[], id:string, width:number, height:number, title?:string, xList?:string[], zList?:string[]
+) {
 	// svg 선택 및 width와 height 설정
 	const svg = d3.select(id)
 	              .attr("width", width)
@@ -52,26 +25,29 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 	const padding = 30;
 	// const margin = 15;
 
+	// 차트의 각 축에서 사용할 데이터 정의
 	const X = d3.map(data, d => d.x);
 	const Y = d3.map(data, d => d.y);
 	const Z = d3.map(data, d => d.z);
 	const O = d3.map(data, d => d);
 
+	// X축, Y축, Z축의 범위를 정의
 	const xDomain = new d3.InternSet(X);
-	const xRange = [padding, width - padding]
 	const yDomain = [0, d3.max(Y, d => d)! * 1.1];
-	const yRange = [height - padding, padding]
 	const zDomain = new d3.InternSet(Z);
-	const colors = d3.schemeSpectral[Util.bandage(zDomain.size, 3, 11)]; // 컬러 배열을 가져온다
 
+	// 차트를 그릴때 사용할 요소를 정의
+	const xRange = [padding, width - padding]
+	const yRange = [height - padding, padding]
+
+	// Series의 인덱스 정의
 	const I = d3.range(X.length).filter(i => zDomain.has(Z[i]));
 
+	// 차트를 그릴때 사용할 좌표값 함수를 정의
 	const xScale = d3.scaleBand(xDomain, xRange); // x좌표 생성함수
 	const yScale = d3.scaleLinear(yDomain, yRange); // y좌표 생성함수
-	const xAxis = (() => { // x축 설정
-		if(!xList) return d3.axisBottom(xScale).ticks(width/80).tickSizeOuter(0).tickFormat(null);
-		else return d3.axisBottom(xScale).ticks(width/80).tickSizeOuter(0).tickFormat((_, i) => xList[i]);
-	})();
+	const zScale = d3.schemeSpectral[Util.bandage(zDomain.size, 3, 11)];
+	const xAxis = Constitute.xAxisFactor(xList, xScale);
 	const yAxis = d3.axisLeft(yScale).ticks(height/60).tickFormat((v) => Util.k(v as number)); // y축 설정
 
 	// path 생성 함수
@@ -80,45 +56,17 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 	               .y((d) => yScale(d[1]))
 
 	// x축 생성
-	svg.append("g")
-	   .attr("class", "xAxis")
-	   .attr("transform", `translate(0, ${height - padding})`)
-	   .call(xAxis)
+	Constitute.XAxis(svg, height, padding, xAxis);
 
 	// y축 생성
-	if(!!title) {
-		svg.append("g")
-		   .attr("transform", `translate(${padding+5}, 0)`)
-		   .call(yAxis)
-		   .call(g => g.select(".domain").remove())
-		   .call(g => g.selectAll(".tick line")
-		               .clone()
-		               .attr("x2", width - padding - padding)
-		               .attr("stroke-opacity", 0.1))
-		   .call(g => g.append("text")
-		               .attr("x", -padding)
-		               .attr("y", padding)
-		               .attr("fill", "currentColor")
-		               .attr("class", "ylabel")
-		               .text(title))
+	Constitute.YAxis(svg, width, padding, yAxis, 0.1)
 
-		const textWidth = (svg.select("text.ylabel").node() as SVGAElement).getBBox().width;
-		const textHeight = (svg.select("text.ylabel").node() as SVGAElement).getBBox().height;
-		svg.select("text.ylabel").attr("transform", `translate(${textWidth}, ${-textHeight})`);
-	}
-	else {
-		svg.append("g")
-		   .attr("transform", `translate(${padding+5}, 0)`)
-		   .call(yAxis)
-		   .call(g => g.select(".domain").remove())
-		   .call(g => g.selectAll(".tick line")
-		               .clone()
-		               .attr("x2", width - padding - padding)
-		               .attr("stroke-opacity", 0.1))
-	}
+	// title이 있으면 title 추가
+	if(!!title) Constitute.Title(svg, padding, title);
 
 	// 첫번쨰 x좌표의 값을 읽어온다
-	const firstTick = (svg.select(".xAxis > .tick").node() as SVGGElement).transform.animVal[0].matrix.e
+	const firstTick = (svg.select(".xAxis > .tick")
+	                      .node() as SVGGElement).transform.animVal[0].matrix.e;
 
 	// path 생성
 	const path = svg.append("g")
@@ -129,7 +77,7 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 	                .data(d3.group(I, i => Z[i])) // Z값에 따라 그릅화
 	                .join("path")
 	                .attr("class", "line")
-	                .attr("stroke", (d) => colors[d[0]]) // path 별 색상 부여
+	                .attr("stroke", (d) => zScale[d[0]]) // path 별 색상 부여
 	                .attr("d", ([_, i]) => { // path에 데이터 부여
 						const temp = i.map(v => [data[v].x, data[v].y])
 						return line(temp as [number, number][])
@@ -143,8 +91,9 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 		p.attr("stroke-dashoffset", length) // path를 안보이게
 		    .attr("stroke-dasharray", length)// path를 안보이게
 		    .transition() // 애니메이션 부여
+		    .delay(i*100)
 		    .ease(d3.easeSin)
-		    .duration(750) // 750 ms 간 애니메이션 수행
+		    .duration(500) // 750 ms 간 애니메이션 수행
 		    .attr("stroke-dashoffset", 0) // path를 보이게
 	}
 
@@ -159,7 +108,7 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 	               .attr("r", 4)
 	               .attr("stroke", "#ccc")
 	               .attr("stroke-width", 1)
-	               .attr("fill", d => colors[d.z])
+	               .attr("fill", d => zScale[d.z])
 	               .attr("cx", d => xScale(d.x)!)
 	               .attr("cy", d => yScale(d.y))
 	               .attr("class", "dot")
@@ -185,6 +134,7 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 	                   .attr("class", "tooltip");
 
 
+
 	/**
 	 * 마우스 포인터가 svg 위에서 움직일 때
 	 */
@@ -199,7 +149,7 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 		dot.style("opacity", (z => Z[i] === z.z ? null : 0.2)).raise();
 
 		const textValue = Constitute.TooltipText((!xList) ? X[i]:xList[i], Y[i], (!zList) ? Z[i]+1 : zList[i]);
-		Constitute.Tooltip(tooltip, textValue, colors[Z[i]])
+		Constitute.Tooltip(tooltip, textValue, zScale[Z[i]])
 	}
 
 	/**
