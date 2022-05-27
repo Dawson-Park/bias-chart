@@ -140,7 +140,7 @@ function generate(
 	 */
 	function pointerMoved(event:any) {
 		const [xm, ym] = d3.pointer(event);
-		const i = d3.least(I, i => Math.hypot(xScale(X[i])! - xm, yScale(Y[i]) - ym))!;
+		const i = d3.least(I, i => Math.hypot(xScale(X[i])! - xm + (firstTick-padding), yScale(Y[i]) - ym))!;
 
 		tooltip.attr("display", null)
 		       .attr("transform", `translate(${xScale(X[i])! + (firstTick-padding)}, ${yScale(Y[i]) + 5})`)

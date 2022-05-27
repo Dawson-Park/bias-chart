@@ -67,7 +67,7 @@ export default class Constitute {
 		               .attr("fill", "currentColor")
 		               .attr("class", "ylabel")
 		               .attr("font-size", 10)
-		               .attr("transform", `translate(0, 0)`)
+		               .attr("transform", `translate(0, -10)`)
 		               .text(title));
 	}
 
