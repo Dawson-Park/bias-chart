@@ -14,8 +14,16 @@
     "type": "git",
     "url": "git+https://github.com/Dawson-Park/bias-chart.git"
   },
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "react",
+    "d3",
+    "data-visualization"
+  ],
+  "author": {
+    "name": "Dawson Park",
+    "email": "dawson@acryl.ai"
+  },
+  "license": "(MIT OR ISC)",
   "bugs": {
     "url": "https://github.com/Dawson-Park/bias-chart/issues"
   },
