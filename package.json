@@ -1,6 +1,6 @@
 {
   "name": "@acryl/bias-chart",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha1",
   "description": "",
   "main": "./dist/bundle.js",
   "types": "./dist/types/index.d.ts",
