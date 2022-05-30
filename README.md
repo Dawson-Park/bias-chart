@@ -33,7 +33,7 @@ const data = [
   <Bar id={"bar"} data={data} />
 </div>
 ```
-![single graph](#)
+![1](https://user-images.githubusercontent.com/94957353/170938239-75ed7532-a5eb-4f40-a08a-0638bdc2ff5e.png)
 
 ### Multiple Graph
 ```jsx
@@ -46,8 +46,7 @@ const data = [
   <Bar id={"bar"} data={data} />
 </div>
 ```
-
-![multiple graph](#)
+![2](https://user-images.githubusercontent.com/94957353/170938324-16bbb2eb-5271-4c7e-815f-dbf9f13c756e.png)
 
 ### xDomain 사용
 ```jsx
@@ -63,7 +62,8 @@ const xDomain = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun" ];
 ```
 `xDomain`의 `length`는 `data` 1차원 배열의 요소의 수와 같아야합니다. 만약 요소의 수가 위처럼 6개라면 `xDomain` 요소의 수 역시 6개로 동일해야합니다. 이보다 많거나 적다면 기본값인 요소의 인덱스 값인 `n`으로 표시됩니다.  
 
-![xDomain](#)
+![3](https://user-images.githubusercontent.com/94957353/170938393-09e0093d-715e-42d8-a25b-3d41ec2044d0.png)
+
 
 ### zDomain 사용
 ```jsx
@@ -79,7 +79,8 @@ const zDomain = [ "Florida" ];
 ```
 `zDomain`의 `length`는 반드시 `data`의 1차원 배열 수와 같아야합니다. 만약 그래프의 수가 위처럼 하나라면 `zDomain` 역시 하나여야합니다. 이보다 많거나 적다면 기본값인 `Series n`으로 표시됩니다.  
 
-![zDomain](#)
+![4](https://user-images.githubusercontent.com/94957353/170938415-3b4702a9-22c1-4175-9126-70472b6ec553.png)
+
 
 ### label 사용
 ```jsx
@@ -93,7 +94,8 @@ const label = "강우확률(%)";
   <Bar id={"bar"} data={data} label={label} />
 </div>
 ```
-![label](#)
+![5](https://user-images.githubusercontent.com/94957353/170938433-0f6b4406-bc6d-44c7-a676-996f2b1ad1c6.png)
+
 
 ### width, height의 사용
 ```jsx
