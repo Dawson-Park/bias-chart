@@ -1,7 +1,7 @@
 # Bias-chart
 d3.js 기반 React 라이브러리 입니다.
 
-## installation
+## Installation
 ```
 npm i acryl-bias-chart
 ```
