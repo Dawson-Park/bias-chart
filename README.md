@@ -1,6 +1,11 @@
 # Bias-chart
 d3.js 기반 React 라이브러리 입니다.
 
+## installation
+```
+npm i acryl-bias-chart
+```
+
 ## Usage
 
 <details>
@@ -9,7 +14,7 @@ d3.js 기반 React 라이브러리 입니다.
 
 ### Import
 ```jsx
-import { Bar } from "@acryl/bias-chart";
+import { Bar } from "acryl-bias-chart";
 ```
 
 ### Props
@@ -114,7 +119,7 @@ const label = "강우확률(%)";
 
 ### Import
 ```jsx
-import { Line } from "@acryl/bias-chart";
+import { Line } from "acryl-bias-chart";
 ```
 
 ### Props
