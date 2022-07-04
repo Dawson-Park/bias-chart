@@ -247,9 +247,8 @@ const data = [
   <Pie id={"pie"} data={data} />
 </div>
 ```
-id는 기본값으로 임의의 문자열 6자가 지정됩니다. 다만 같은 종류의 컴포넌트를 둘 이상 사용할 때는 사용할 것을 권고드립니다.
-
-![1]()
+id는 기본값으로 임의의 문자열 6자가 지정됩니다. 다만 같은 종류의 컴포넌트를 둘 이상 사용할 때는 사용할 것을 권고드립니다.  
+![1](https://user-images.githubusercontent.com/94957353/177104324-1729b4f8-6ceb-45d0-bf39-055f35bb531e.png)
 
 ### xDomain 사용
 ```jsx
@@ -263,9 +262,8 @@ const xDomain = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun" ];
   <Pie id={"pie"} data={data} xDomain={xDomain} />
 </div>
 ```
-`xDomain`의 `length`는 `data` 배열의 요소의 수와 같아야합니다. 만약 요소의 수가 위처럼 6개라면 `xDomain` 요소의 수 역시 6개로 동일해야합니다. 이보다 많거나 적다면 기본값인 요소의 인덱스 값인 `n`으로 표시됩니다.
-
-![2]()
+`xDomain`의 `length`는 `data` 배열의 요소의 수와 같아야합니다. 만약 요소의 수가 위처럼 6개라면 `xDomain` 요소의 수 역시 6개로 동일해야합니다. 이보다 많거나 적다면 기본값인 요소의 인덱스 값인 `n`으로 표시됩니다.  
+![2](https://user-images.githubusercontent.com/94957353/177104544-8afbba6f-6a8e-47a6-a458-93f1ff5e3d74.png)
 
 ### label 사용
 ```jsx
@@ -278,8 +276,9 @@ const label = "강우확률(%)";
 <div>
   <Pie id={"pie"} data={data} label={label} />
 </div>
-```
-![3]()
+```  
+![3](https://user-images.githubusercontent.com/94957353/177104708-5694e1f7-3ee6-4343-9949-515ea1dacb61.png)
+
 
 ### width, height의 사용
 ```jsx
