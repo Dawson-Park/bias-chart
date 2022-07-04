@@ -4,7 +4,7 @@ import Constitute, { Series, Config } from "lib/Constitute";
 
 export default function make(config:Config) {
 	// config 값 풀기
-	const { id, width, height, label, xList, zList } = Constitute.Untie(config);
+	const { id, width, height, label, xList, zList } = Constitute.Untie3(config);
 
 	// 리랜더링 시 svg 클리어
 	Constitute.Clear(id)

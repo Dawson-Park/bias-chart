@@ -1,36 +1,7 @@
 import React from "react";
 import useConfig from "hooks/useConfig";
 import make from "./make";
-import styled from "styled-components";
-// import Container from "../common/Container";
-
-const Container = styled("div")<{ width:string, height:string }>`
-  width: ${props => props.width};
-  height: ${props => props.height};
-  min-width: 240px;
-  min-height: 240px;
-  max-height: 750px;
-
-  svg {
-    box-sizing: border-box;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  
-  g.tick text {
-    font-size: 12px;
-  }
-  
-  rect {
-    transition: opacity ease .3s;
-  }
-  
-  .tooltip {
-    transition: all ease .2s;
-  }
-`;
+import Container from "../common/Container";
 
 export interface LineProps {
 	data: number[][];

@@ -1,8 +1,19 @@
 import styled from "styled-components";
 
-const Container = styled("div")<{ width:string, height:string }>`
+export interface IContainer {
+	width: string;
+	height: string;
+	padding?: string;
+}
+
+const Container = styled("div")<IContainer>`
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
   width: ${props => props.width};
   height: ${props => props.height};
+  padding: ${props => props.padding};
   min-width: 240px;
   min-height: 240px;
   max-height: 750px;
@@ -17,6 +28,10 @@ const Container = styled("div")<{ width:string, height:string }>`
   
   g.tick text {
     font-size: 12px;
+  }
+  
+  g.pie-container {
+    
   }
   
   rect {

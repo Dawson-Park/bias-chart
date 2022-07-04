@@ -1,13 +1,10 @@
 import React from "react";
-import Util from "lib/Util";
-import Random from "lib/Random";
 import useInit from "./useInit";
+import Random from "lib/Random";
+import Util from "lib/Util";
 
-/**
- * prop을 전달받아 config 파일을 생성하는 함수
- */
-export default function useConfig(
-	data: number[][], group: React.RefObject<HTMLDivElement>, type:string, id?: string, label?: string, xDomain?: string[], zDomain?: string[]
+export default function usePieConfig(
+	data: number[], group: React.RefObject<HTMLDivElement>, type:string, id?: string, label?: string, xDomain?: string[]
 ) {
 	const { divWidth, divHeight, seed } = useInit(group);
 
@@ -23,7 +20,7 @@ export default function useConfig(
 	 * 1차원 배열로 재정의된 data
 	 */
 	const series = React.useMemo(() => {
-		return Util.extract3(data);
+		return Util.extract2(data);
 	}, [data])
 
 	/**
@@ -36,9 +33,8 @@ export default function useConfig(
 			id: tId,
 			width: divWidth,
 			height: divHeight,
-			xDomain: Util.plait3(xDomain, series, "x"),
-			zDomain: Util.plait3(zDomain, series, "z"),
+			xDomain: Util.plait2(xDomain, series),
 			series, label
 		};
-	}, [tId, divWidth, divHeight, series, label, xDomain, zDomain]);
+	}, [tId, divWidth, divHeight, series, label, xDomain]);
 }

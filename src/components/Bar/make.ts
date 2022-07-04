@@ -4,10 +4,10 @@ import Constitute, { Series, Config } from "lib/Constitute";
 
 export default function make(config:Config) {
 	// config 값 풀기
-	const { id, width, height, label, xList, zList } = Constitute.Untie(config);
+	const { id, width, height, label, xList, zList } = Constitute.Untie3(config);
 
 	// 리랜더링 시 svg 클리어
-	Constitute.Clear(id)
+	Constitute.Clear(id);
 
 	generate(config.series, id, width, height, label, xList, zList);
 }
@@ -50,10 +50,10 @@ function generate(
 	const yScale = d3.scaleLinear(yDomain, yRange);
 	const zScale = d3.schemeSpectral[Util.bandage(zDomain.size, 3, 11)];
 	const xAxis = Constitute.xAxisFactor(xList, xScale);
-	const yAxis = d3.axisLeft(yScale).ticks(height/60).tickFormat((v) => Util.k(v as number))
+	const yAxis = d3.axisLeft(yScale).ticks(height/60).tickFormat((v) => Util.k(v as number));
 
 	// y축 생성
-	Constitute.YAxis(svg, width, padding, yAxis, (_:any, i:number) => i===0 ? 1:0.1)
+	Constitute.YAxis(svg, width, padding, yAxis, (_:any, i:number) => i===0 ? 1:0.1);
 
 	// title이 있으면 title 추가
 	if(!!title) Constitute.Title(svg, padding, title);
@@ -70,7 +70,7 @@ function generate(
 	               .attr("height", 0)
 	               .attr("fill", i => zScale[Z[i]])
 	               .on("mouseover", (_, i) => pointerMoved(i))
-	               .on("mouseleave", pointerLeave)
+	               .on("mouseleave", pointerLeave);
 
 	// x축 생성
 	Constitute.XAxis(svg, height, padding, xAxis);
@@ -84,7 +84,7 @@ function generate(
 		   .ease(d3.easeSin)
 		   .duration(500)
 		   .attr("y", yScale(Y[i]))
-		   .attr("height", yScale(0) - yScale(Y[i]))
+		   .attr("height", yScale(0) - yScale(Y[i]));
 	}
 
 	const tooltip = svg.append("g")

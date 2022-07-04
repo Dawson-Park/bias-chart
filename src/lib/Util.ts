@@ -1,8 +1,8 @@
 export default class Util {
 	/**
-	 * 도메인을 extract된 배열에 대응되도록 변경
+	 * 도메인을 extract된 3차원 배열에 대응되도록 변경
 	 */
-	public static plait(domain:string[]|undefined, extracted:{x:number, y:number, z:number}[], flag:"x"|"z") {
+	public static plait3(domain:string[]|undefined, extracted:{x:number, y:number, z:number}[], flag:"x"|"z") {
 		if(!domain) return undefined;
 
 		const output = [];
@@ -38,9 +38,27 @@ export default class Util {
 	}
 
 	/**
-	 * 입력받은 series를 1차원 배열로 재배열하는 메소드
+	 * 도메인을 extract된 2차원 배열에 대응되도록 변경
 	 */
-	public static extract(Y:number[][]) {
+	public static plait2(domain:string[]|undefined, extracted:{x:number, y:number}[]) {
+		if(!domain) return undefined;
+
+		const output = [];
+		const x = Array.from(new Set(extracted.map(e => e.x)));
+
+		if(x.length === domain.length) {
+			for(const el of x) {
+				output.push(domain[el])
+			}
+			return output;
+		}
+		else return undefined;
+	}
+
+	/**
+	 * 입력받은 series를 3차원 배열로 재배열하는 메소드
+	 */
+	public static extract3(Y:number[][]) {
 		const output = [];
 		for (const K in Y) {
 			for (const k in Y[K]) {
@@ -49,6 +67,15 @@ export default class Util {
 		}
 
 		return output;
+	}
+
+	/**
+	 * 입력받은 series를 2차원 배열로 재배열하는 메소드
+	 */
+	public static extract2(N:number[]) {
+		return N.map((d, i) => ({
+			x: i, y: d
+		}));
 	}
 
 	/**

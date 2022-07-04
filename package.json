@@ -7,7 +7,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && rollup -c && npm run build:types",
-    "watch": "rollup -c -w",
+    "watch": "npm run clean && rollup -c -w && npm run build:types",
     "build:types": "tsc --emitDeclarationOnly"
   },
   "repository": {

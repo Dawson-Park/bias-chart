@@ -125,9 +125,9 @@ export default class Constitute {
 	}
 
 	/**
-	 * Configuration을 일반 변수로 return하는 메소드
+	 * 3차원 Configuration을 일반 변수로 return하는 메소드
 	 */
-	public static Untie(config:Config) {
+	public static Untie3(config:Config) {
 		const id = "#"+config.id;
 		const width = config.width;
 		const height = config.height;
@@ -136,6 +136,19 @@ export default class Constitute {
 		const zList = config.zDomain;
 
 		return { id, width, height, label, xList, zList };
+	}
+
+	/**
+	 * 2차원 Configuration을 일반 변수로 return하는 메소드
+	 */
+	public static Untie2(config:any) {
+		const id = "#"+config.id;
+		const width = config.width;
+		const height = config.height;
+		const label = config.label;
+		const xList = config.xDomain;
+
+		return { id, width, height, label, xList };
 	}
 
 	/**
