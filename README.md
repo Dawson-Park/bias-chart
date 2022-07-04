@@ -240,7 +240,7 @@ import { Pie } from "acryl-bias-chart";
 ### Single Graph
 ```jsx
 const data = [
-	59, 84, 78, 63, 87, 89
+    59, 84, 78, 63, 87, 89
 ];
 
 <div>
@@ -253,7 +253,7 @@ id는 기본값으로 임의의 문자열 6자가 지정됩니다. 다만 같은
 ### xDomain 사용
 ```jsx
 const data = [
-	59, 84, 78, 63, 87, 89
+    59, 84, 78, 63, 87, 89
 ];
 
 const xDomain = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun" ];
@@ -268,7 +268,7 @@ const xDomain = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun" ];
 ### label 사용
 ```jsx
 const data = [
-	59, 84, 78, 63, 87, 89
+    59, 84, 78, 63, 87, 89
 ];
 
 const label = "강우확률(%)";
