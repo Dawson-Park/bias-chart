@@ -34,5 +34,5 @@ export default {
 		}),
 		typescript()
 	],
-	external: ['styled-components']
+	external: ['react', 'react-dom', 'styled-components']
 }
