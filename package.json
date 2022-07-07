@@ -1,6 +1,6 @@
 {
   "name": "acryl-bias-chart",
-  "version": "0.1.0-alpha3",
+  "version": "0.2.0",
   "description": "It is a React data visualization library based on d3.js.",
   "main": "./dist/bundle.js",
   "types": "./dist/types/index.d.ts",
