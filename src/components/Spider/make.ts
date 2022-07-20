@@ -99,23 +99,35 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 	 * 차트를 실제로 그리는 메소드
 	 */
 	function drawChart() {
+		const values = [];
+
 		for (let i = 0; i < zDomain.size; i++) {
 			const d = dataFace[i];
+			const z = dataFace[i].map((v:any) => ({ x:v.x, y:0 }))
 			const color = colors[i];
+
 			const coordinates = getPathCoordinates(d);
+			const zeroPoints = getPathCoordinates(z);
 
 			const points = coordinates.reduce((a, c) => a + `${c.x},${c.y} `, '');
+			const zero = zeroPoints.reduce((a, c) => a + `${c.x},${c.y} `, '');
 
 			const g = svg.append("g").attr("class", "spider-values");
 
 			// 값을 가져와 실제로 도형을 그림
 			g.append("polygon")
-			 .attr("points", points)
+			 .attr("class", "spider-poly")
+			 .attr("points", zero)
 			 .attr("stroke-width", 3)
 			 .attr("stroke", color)
 			 .attr("stroke-opacity", 1)
 			 .attr("fill", color)
 			 .attr("fill-opacity", 0.3)
+			 .transition()
+			 .delay((i+1) * 100)
+			 .ease(d3.easeSin)
+			 .duration(500)
+			 .attr("points", points)
 
 			// 각 꼭지점에 점을 그림
 			for (const c of coordinates) {
@@ -125,6 +137,12 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 				 .attr("fill", color)
 				 .attr("stroke", color)
 				 .attr("r", 4)
+				 .attr("opacity", "0")
+				 .transition()
+				 .delay((zDomain.size) * 500)
+				 .ease(d3.easeSin)
+				 .duration(300)
+				 .attr("opacity", "1")
 			}
 
 			g.on("pointerenter pointermove", () => {
@@ -134,7 +152,18 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 			g.on("pointerleave", () => {
 				svg.selectAll("g.spider-values").attr("opacity", "1");
 			});
+
+			values.push(g);
 		}
+
+		for (const value of values) {
+			const polygon = value.select('polygon');
+		}
+		// for (let i = 0; i < zDomain.size; i++) {
+		// 	const polygon = values.select(`polygon`);
+		// 	console.log(`polygon(${i+1})`, polygon);
+		// 	// const length = (p.node() as SVGPolygonElement);
+		// }
 	}
 
 	/**
