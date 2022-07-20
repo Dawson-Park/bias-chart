@@ -139,7 +139,7 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 				 .attr("r", 4)
 				 .attr("opacity", "0")
 				 .transition()
-				 .delay((zDomain.size) * 500)
+				 .delay((zDomain.size * 100) + 600)
 				 .ease(d3.easeSin)
 				 .duration(300)
 				 .attr("opacity", "1")
