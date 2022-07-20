@@ -16,7 +16,7 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 	const svg = d3.select(id)
 	              .attr("width", width)
 	              .attr("height", height)
-	              .style("border", "1px solid #fff");
+	              // .style("border", "1px solid #fff");
 
 	// 공통으로 사용할 값 지정
 	const r = width/2;
