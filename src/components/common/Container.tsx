@@ -31,14 +31,14 @@ const Container = styled("div")<IContainer>`
   }
   
   g.pie-container {
-    
+    transform: translateX(50%);
   }
-  
-  rect {
+
+  rect.bar-rect, g.line-group path, g.line-dots circle, g.spider-values {
     transition: opacity ease .3s;
   }
   
-  .tooltip {
+  g.tooltip {
     transition: all ease .2s;
   }
 `;

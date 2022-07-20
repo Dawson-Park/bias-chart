@@ -63,7 +63,7 @@ function generate(
 	               .selectAll("rect")
 	               .data(I)
 	               .join("rect")
-	               .attr("class", "bar")
+	               .attr("class", "bar-rect")
 	               .attr("x", i => xScale(X[i])! + xzScale(Z[i])!)
 	               .attr("y", yScale(0))
 	               .attr("width", xzScale.bandwidth())
@@ -77,7 +77,7 @@ function generate(
 
 	// Bar 차트에 애니메이션 추가
 	for (let i = 0; i < I.length; i++) {
-		const b = svg.select(`.bar:nth-of-type(${i+1})`);
+		const b = svg.select(`.bar-rect:nth-of-type(${i+1})`);
 
 		b.transition()
 		   .delay(i*50)

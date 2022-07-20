@@ -25,7 +25,6 @@ export default function Line({
 	React.useEffect(() => {
 		if(config === null) return;
 
-		// console.log("Line Init")
 		make(config); // 화면이 변하지 않는 이상 무조건 1번만 실행되야함
 	}, [config])
 

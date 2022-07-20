@@ -70,13 +70,14 @@ function generate(
 
 	// path 생성
 	const path = svg.append("g")
+	                .attr("class", "line-group")
 	                .attr("transform", `translate(${firstTick-padding}, 0)`) // 첫번째 x좌표의 위치만큼 path를 이동시킨다
 	                .attr("fill", "none") // 채우기 없음
 	                .attr("stroke-width", 1.5) // path의 굵기
 	                .selectAll("path")
 	                .data(d3.group(I, i => Z[i])) // Z값에 따라 그릅화
 	                .join("path")
-	                .attr("class", "line")
+	                .attr("class", "line-path")
 	                .attr("stroke", (d) => zScale[d[0]]) // path 별 색상 부여
 	                .attr("d", ([_, i]) => { // path에 데이터 부여
 						const temp = i.map(v => [data[v].x, data[v].y])
@@ -85,7 +86,7 @@ function generate(
 
 	// path에 애니메이션 추가
 	for (let i = 0; i < d3.group(I, i => Z[i]).size; i++) {
-		const p = svg.select(`.line:nth-of-type(${i+1})`);
+		const p = svg.select(`.line-path:nth-of-type(${i+1})`);
 		const length = (p.node() as SVGPathElement).getTotalLength();
 
 		p.attr("stroke-dashoffset", length) // path를 안보이게
@@ -99,6 +100,7 @@ function generate(
 
 	// path의 꼭지점에 점을 생성하는 구문
 	const dot = svg.append("g")
+	               .attr("class", "line-dots")
 	               .attr("transform", `translate(${firstTick-padding}, 0)`)
 	               .attr("width", width)
 	               .attr("height", height)
