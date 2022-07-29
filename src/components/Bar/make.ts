@@ -15,6 +15,7 @@ export default function make(config:Config) {
 function generate(
 	data:Series[], id:string, width:number, height:number, title?:string, xList?:string[], zList?:string[]
 ) {
+	/* MAINSTREAM AREA ---------------------------------------------------------------------------------------------- */
 	// svg 선택 및 width와 height 설정
 	const svg = d3.select(id)
 	              .attr("width", width)
@@ -90,9 +91,13 @@ function generate(
 	const tooltip = svg.append("g")
 	                   .style("pointer-events", "none")
 	                   .attr("class", "tooltip");
+	/* ---------------------------------------------------------------------------------------------- MAINSTREAM AREA */
 
 
 
+
+
+	/* FUNCTION DEFINE AREA ----------------------------------------------------------------------------------------- */
 	/**
 	 * 마우스 포인터가 그래프 위에 오버 중일 때
 	 */
@@ -113,4 +118,5 @@ function generate(
 		tooltip.style("display", "none");
 		bar.style("opacity", 1);
 	}
+	/* ----------------------------------------------------------------------------------------- FUNCTION DEFINE AREA */
 }

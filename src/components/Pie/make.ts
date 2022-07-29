@@ -28,6 +28,7 @@ export default function make(config:Config) {
 function generate(
 	data:Series[], id:string, width:number, height:number, title?:string, xList?:string[]
 ) {
+	/* MAINSTREAM AREA ---------------------------------------------------------------------------------------------- */
 	const padding = 30;
 	const rwidth = width - padding*2;
 	const rheight = height - padding*2;
@@ -153,7 +154,13 @@ function generate(
 	                   .style("pointer-events", "none")
 	                   .attr("class", "tooltip");
 
+	/* ---------------------------------------------------------------------------------------------- MAINSTREAM AREA */
 
+
+
+
+
+	/* FUNCTION DEFINE AREA ----------------------------------------------------------------------------------------- */
 	/**
 	 * 마우스 오버시 파이 조각이 12px만큼 밖으로 이동하는 애니메이션을 추가하는 메소드
 	 */
@@ -186,7 +193,7 @@ function generate(
 	/**
 	 * 마우스 아웃시 파이 조각이 원래 자리로 돌아가는 애니메이션을 추가하는 메소드
 	 */
-	function onMouseLeave(event:any, d:any) {
+	function onMouseLeave(event:any) {
 		tooltip.style("display", "none");
 
 
@@ -216,6 +223,7 @@ function generate(
 
 		Constitute.Tooltip(tooltip, textValue, color(scheme[Number(d.data)]))
 	}
+	/* ----------------------------------------------------------------------------------------- FUNCTION DEFINE AREA */
 }
 
 

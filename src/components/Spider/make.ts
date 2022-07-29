@@ -12,6 +12,7 @@ export default function make(config:Config) {
 }
 
 function generate(data:Series[], id:string, width:number, height:number, title?:string, xList?:string[], zList?:string[]) {
+	/* MAINSTREAM AREA ---------------------------------------------------------------------------------------------- */
 	// svg 선택 및 width와 height 설정
 	const svg = d3.select(id)
 	              .attr("width", width)
@@ -68,6 +69,7 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 		return temp;
 	})();
 
+
 	// zDomain으로 구분하여 각 값의 좌표를 가져와 실제 도형을 그리는 구문
 	drawChart();
 
@@ -92,11 +94,13 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 	svg.on("pointerleave", () => {
 		tooltip.attr("display", "none");
 	});
+	/* ---------------------------------------------------------------------------------------------- MAINSTREAM AREA */
 
 
 
 
 
+	/* FUNCTION AREA ------------------------------------------------------------------------------------------------ */
 	/**
 	 * 차트를 실제로 그리는 메소드
 	 */
@@ -157,15 +161,6 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 
 			values.push(g);
 		}
-
-		for (const value of values) {
-			const polygon = value.select('polygon');
-		}
-		// for (let i = 0; i < zDomain.size; i++) {
-		// 	const polygon = values.select(`polygon`);
-		// 	console.log(`polygon(${i+1})`, polygon);
-		// 	// const length = (p.node() as SVGPolygonElement);
-		// }
 	}
 
 	/**
@@ -277,4 +272,5 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 		   .attr("font-size", 10)
 		   .text(d => d.toString())
 	}
+	/* ------------------------------------------------------------------------------------------------ FUNCTION AREA */
 }
