@@ -36,7 +36,7 @@ function generate(
 	const svg = d3.select(id)
 	              .attr("width", width)
 	              .attr("height", height)
-	              .attr("viewBox", [-width/2, -height/2, width, height])
+	              .attr("viewBox", [0, -height/2, width, height])
 	              .attr("style", "max-width:100%; height:auto; height:intrinsic")
 	              // .style("border", "1px solid #fff");
 
@@ -143,7 +143,7 @@ function generate(
 		svg.append('g')
 		   .attr("font-size", "10px")
 		   .attr("fill", "white")
-		   .attr('transform', `translate(-${(width/2)}, -${(height/2)-10})`)
+		   .attr('transform', `translate(0, -${(height/2)-10})`)
 		   .append('text')
 		   .text(title)
 	}
@@ -210,7 +210,7 @@ function generate(
 		const [X, Y] = arcLabel.centroid(d);
 
 		tooltip.style("display", null);
-		tooltip.attr("transform", `translate(${X}, ${Y+16})`)
+		tooltip.attr("transform", `translate(${X+(width/2)}, ${Y+16})`)
 
 		const textValue = `${label(Number(d.data))}`.split(/\n/);
 
