@@ -71,6 +71,8 @@ function generate(data:Series[], id:string, width:number, height:number, title?:
 	// zDomain으로 구분하여 각 값의 좌표를 가져와 실제 도형을 그리는 구문
 	drawChart();
 
+	if(!!title) Constitute.Title(svg, 28, title);
+
 	// tooltip으로 사용할 g 태그 생성
 	const tooltip = svg.append("g")
 	                   .style("pointer-events", "none")
