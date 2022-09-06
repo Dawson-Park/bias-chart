@@ -1,13 +1,14 @@
 {
   "name": "acryl-bias-chart",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "It is a React data visualization library based on d3.js.",
   "main": "./dist/bundle.js",
-  "types": "./dist/types/index.d.ts",
+  "types": "../types/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && rollup -c && npm run build:types",
-    "watch": "npm run clean && rollup -c -w && npm run build:types",
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "types": "npm run build:types",
     "build:types": "tsc --emitDeclarationOnly"
   },
   "repository": {
@@ -33,6 +34,7 @@
   "homepage": "https://dawson-park.github.io/bias-chart/",
   "dependencies": {
     "d3": "^7.4.4",
+    "d3-3d": "^0.1.2",
     "node-sass": "^7.0.1",
     "styled-components": "^5.3.5"
   },

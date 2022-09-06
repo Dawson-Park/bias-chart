@@ -8,7 +8,7 @@ export default {
 		{
 			file: "./dist/bundle.js",
 			format: "es",
-			name: "@acryl/bias-chart",
+			name: "acryl-bias-chart",
 			sourcemap: true,
 		},
 		// {

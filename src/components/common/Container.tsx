@@ -4,6 +4,7 @@ export interface IContainer {
 	width: string;
 	height: string;
 	padding?: string;
+	type?:"Bar"|"Line"|"Spider"|"Pie"|"Scatter3d";
 }
 
 const Container = styled("div")<IContainer>`
@@ -14,9 +15,23 @@ const Container = styled("div")<IContainer>`
   width: ${props => props.width};
   height: ${props => props.height};
   padding: ${props => props.padding};
-  min-width: 240px;
-  min-height: 240px;
-  max-height: 750px;
+  overflow: hidden;
+  min-width: ${props => { 
+	  if(props.type !== "Scatter3d") return '240px';
+	  else return '300px';
+  }};
+  min-height: ${props => {
+    if(props.type !== "Scatter3d") return '240px';
+    else return '300px';
+  }};
+  max-width: ${props => {
+    if(props.type !== "Scatter3d") return 'none';
+    else return '900px';
+  }};
+  max-height: ${props => {
+    if(props.type !== "Scatter3d") return '750px';
+    else return '900px';
+  }};
 
   svg {
     box-sizing: border-box;

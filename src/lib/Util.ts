@@ -55,6 +55,20 @@ export default class Util {
 		else return undefined;
 	}
 
+	public static extract4(D:number[][]) {
+		const output = [];
+
+		for (const d of D) {
+			output.push({ x: sanitize(d[0]), y: sanitize(d[1]), z:sanitize(d[2]) });
+		}
+
+		return output;
+
+		function sanitize(d:number) {
+			return (!!d && d>0) ? d : 0;
+		}
+	}
+
 	/**
 	 * 입력받은 series를 3차원 배열로 재배열하는 메소드
 	 */

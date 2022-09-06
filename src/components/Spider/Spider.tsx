@@ -30,7 +30,7 @@ export default function Spider({
 
 	return (
 		<Container ref={group} height={height} width={width}>
-			<svg id={config?.id||"polar"} />
+			<svg id={config?.id||"spider"} />
 		</Container>
 	)
 }

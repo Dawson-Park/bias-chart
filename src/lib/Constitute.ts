@@ -5,6 +5,11 @@ export interface Series {
 	y: number;
 	z: number;
 }
+export interface Domain {
+	x?: string;
+	y?: string;
+	z?: string;
+}
 export interface Config {
 	id: string;
 	width: number;
@@ -122,6 +127,51 @@ export default class Constitute {
 		_text.attr("transform", `translate(${-w / 2},${15 - y})`);
 		_path.attr("d", `M${-w / 2 - 10},5H-5l5,-5l5,5H${w / 2 + 10}v${h + 20}h-${w + 20}z`);
 		_circle.attr("transform", `translate(${(-w+8) / 2},${26.5 - y})`)
+	}
+
+	/**
+	 * Tooltip에서 사용할 텍스트를 생성하는 메소드
+	 */
+	public static TooltipText3D(datum:Series, domain?:Domain) {
+		const xDomain = (!!domain?.x) ? domain.x : "x";
+		const yDomain = (!!domain?.y) ? domain.y : "y";
+		const zDomain = (!!domain?.z) ? domain.z : "z";
+
+		return [
+			`${xDomain} : ${datum.x}`,
+			`${yDomain} : ${datum.y}`,
+			`${zDomain} : ${datum.z}`
+		]
+	}
+
+	/**
+	 * Tooltip을 구성하는 메소드
+	 */
+	public static Tooltip3D(tooltip:d3.Selection<SVGGElement, unknown, HTMLElement, any>, textValue:string[]) {
+		// 툴팁을 그린다
+		const _path = tooltip.selectAll("path")
+		                     .data([undefined])
+		                     .join("path")
+		                     .attr("fill", "white")
+		                     .attr("stroke", "black")
+
+		// 툴팁에 텍스트를 추가한다
+		const _text = tooltip.selectAll("text")
+		                     .data([undefined])
+		                     .join('text')
+		                     .call(text => text.selectAll("tspan")
+		                                       .data(textValue)
+		                                       .join('tspan')
+		                                       .attr("x", (_) => 0)
+		                                       .attr("y", (_, i) => `${i * 1.25}em`)
+		                                       .attr("font-size", 12)
+		                                       .text(d => d));
+
+		const {y, width:w, height:h} = (_text.node() as SVGTextElement).getBBox();
+		_text.attr("transform", `translate(${-w / 2},${15 - y})`);
+		_path.attr("d", `M${-w / 2 - 10},5H-5l5,-5l5,5H${w / 2 + 10}v${h + 20}h-${w + 20}z`);
+
+		tooltip.raise();
 	}
 
 	/**

@@ -3,11 +3,13 @@ import Util from "lib/Util";
 import Random from "lib/Random";
 import useInit from "./useInit";
 
+type ChartType = "Bar"|"Line"|"Spider"|"Pie"|"Scatter3d"
+
 /**
  * prop을 전달받아 config 파일을 생성하는 함수
  */
 export default function useConfig(
-	data: number[][], group: React.RefObject<HTMLDivElement>, type:string, id?: string, label?: string, xDomain?: string[], zDomain?: string[]
+	data: number[][], group: React.RefObject<HTMLDivElement>, type:ChartType, id?: string, label?: string, xDomain?: string[], zDomain?: string[]
 ) {
 	const { divWidth, divHeight, seed } = useInit(group);
 
@@ -40,5 +42,5 @@ export default function useConfig(
 			zDomain: Util.plait3(zDomain, series, "z"),
 			series, label
 		};
-	}, [tId, divWidth, divHeight, series, label, xDomain, zDomain]);
+	}, [tId, divWidth, divHeight, series, label, xDomain, zDomain, type]);
 }
